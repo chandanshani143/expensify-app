@@ -11,7 +11,7 @@ module.exports = (env) => {                          //we can export an webpack.
         mode: 'development',
         entry: './src/app.js',
         output: {
-            path: path.join(__dirname, 'public'),
+            path: path.join(__dirname, 'public', 'dist'),
             filename: 'bundle.js'
         },
         //loader for webpack
@@ -46,7 +46,8 @@ module.exports = (env) => {                          //we can export an webpack.
         devtool: isProduction ? 'source-map' : 'inline-source-map',          //source-map is used for detecting error in the specific place and tell wheere the console.log comes from
         devServer: {                                                                    //for production we use source-map which is slow but get things done as we are gonna change things quite often in production
             contentBase: path.join(__dirname, 'public'),
-            historyApiFallback: true                                      //this tells the devserver that we are handling routing via client side code and it should return index.html for all 404 routes
+            historyApiFallback: true,                                      //this tells the devserver that we are handling routing via client side code and it should return index.html for all 404 routes
+            publicPath: '/dist/'
         }
     };
 };
