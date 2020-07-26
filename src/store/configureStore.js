@@ -5,9 +5,9 @@ import filterReducer from '../reducers/filters';
 export default () => {
     //store creation
     const store = createStore(
-        combineReducers({
+        combineReducers({ 
             expenses: expenseReducer,                            //combineReducers takes the key value pair where key is the root property and value is the reducer manages the property
-            filters: filterReducer
+            filters: filterReducer                                //copying this from Redux developer docs from github link
         }),
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
