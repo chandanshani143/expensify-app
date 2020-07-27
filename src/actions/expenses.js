@@ -1,4 +1,4 @@
-import {uuid} from 'uuidv4';
+import { uuid } from 'uuidv4';
 import database from '../firebase/firebase'
 
 //Action Generators
@@ -12,12 +12,12 @@ export const startAddExpense = (expenseData = {}) => {
     return (dispatch) => {
         const {                                         //destructuring default values from expenseData
             description = '',
-            note= '', 
-            amount = 0, 
+            note = '',
+            amount = 0,
             createdAt = 0
-        } = expenseData;              
+        } = expenseData;
         const expense = { description, note, amount, createdAt };
-        
+
         return database.ref('expenses').push(expense).then((ref) => {
             dispatch(addExpense({
                 id: ref.key,
@@ -33,8 +33,16 @@ export const removeExpense = ({ id } = {}) => ({
     id
 });
 
+export const startRemoveExpense = ({ id } = {}) => {
+    return (dispatch) => {
+       return database.ref(`expenses/${id}`).remove().then(() => {
+            dispatch(removeExpense({ id }));
+        });
+    };
+};
+
 //EDIT_EXPENSE
-export const editExpense = ( id, updates) => ({
+export const editExpense = (id, updates) => ({
     type: 'EDIT_EXPENSE',
     id,
     updates
@@ -48,18 +56,18 @@ export const setExpenses = (expenses) => ({
 
 export const startSetExpenses = () => {                  //fetching data from the database          
     return (dispatch) => {
-       return database.ref('expenses')                //make sure that the promise gets returned  and this allow access to then in app.js where we dispatch things                  
-        .once('value')
-        .then((snapshot) => {
-        const expenses = [];
+        return database.ref('expenses')                //make sure that the promise gets returned  and this allow access to then in app.js where we dispatch things                  
+            .once('value')
+            .then((snapshot) => {
+                const expenses = [];
 
-        snapshot.forEach((childSnapshot) => {
-            expenses.push({
-            id: childSnapshot.key,
-            ...childSnapshot.val()
+                snapshot.forEach((childSnapshot) => {
+                    expenses.push({
+                        id: childSnapshot.key,
+                        ...childSnapshot.val()
+                    });
+                });
+                dispatch(setExpenses(expenses));
             });
-        });
-        dispatch(setExpenses(expenses));
-        });
     };
 };
