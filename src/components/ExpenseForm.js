@@ -47,7 +47,7 @@ export default class ExpenseForm extends React.Component {
             this.props.onSubmit({                                 //passing all the properties to onSubmit props in AddExpense page
                 description: this.state.description,
                 amount: parseFloat(this.state.amount, 10),
-                createdAt: this.state.createdAt.valueOf(),                //value of gives the regular number taht represents the date value
+                createdAt: this.state.createdAt.valueOf(),                //valueof gives the regular number taht represents the date value
                 note: this.state.note
             });
         }

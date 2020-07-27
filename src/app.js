@@ -10,6 +10,7 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 import numeral from 'numeral';
+import './firebase/firebase';
 
 const store = configureStore();                                 //storing the return value of store from configureStore to store variable
 
