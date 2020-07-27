@@ -21,7 +21,9 @@ const expenseReducer = (state = expensesReducerDefaultState, action) => {
                     return expense;
                 };
             });
-            default: 
+        case 'SET_EXPENSES':                                      //it is fetching data from the database
+            return action.expenses
+           default: 
             return state;
     }
 };

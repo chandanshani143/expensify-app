@@ -18,7 +18,7 @@ export const startAddExpense = (expenseData = {}) => {
         } = expenseData;              
         const expense = { description, note, amount, createdAt };
         
-        database.ref('expenses').push(expense).then((ref) => {
+        return database.ref('expenses').push(expense).then((ref) => {
             dispatch(addExpense({
                 id: ref.key,
                 ...expense
@@ -39,3 +39,27 @@ export const editExpense = ( id, updates) => ({
     id,
     updates
 });
+
+//SET_EXPENSE- this action is responsible for fetching data from the database
+export const setExpenses = (expenses) => ({
+    type: 'SET_EXPENSES',
+    expenses
+});
+
+export const startSetExpenses = () => {                  //fetching data from the database          
+    return (dispatch) => {
+       return database.ref('expenses')                //make sure that the promise gets returned  and this allow access to then in app.js where we dispatch things                  
+        .once('value')
+        .then((snapshot) => {
+        const expenses = [];
+
+        snapshot.forEach((childSnapshot) => {
+            expenses.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val()
+            });
+        });
+        dispatch(setExpenses(expenses));
+        });
+    };
+};
