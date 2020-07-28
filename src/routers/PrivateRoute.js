@@ -12,7 +12,7 @@ export const PrivateRoute = ({
     isAuthenticated ? (
         <div>
             <Header />
-            <Component {...props}/>
+            <Component {...props}/>                      {/*The Componenft will be replaced by AddExpense,EditExpense etc. */}
         </div>
     ) : (
         <Redirect to="/"/>
