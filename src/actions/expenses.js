@@ -9,7 +9,8 @@ export const addExpense = (expense) => ({                         //we are impli
 });
 
 export const startAddExpense = (expenseData = {}) => {
-    return (dispatch) => {
+    return (dispatch, getstate) => {
+        const uid = getstate().auth.uid;
         const {                                         //destructuring default values from expenseData
             description = '',
             note = '',
@@ -18,7 +19,7 @@ export const startAddExpense = (expenseData = {}) => {
         } = expenseData;
         const expense = { description, note, amount, createdAt };
 
-        return database.ref('expenses').push(expense).then((ref) => {
+        return database.ref(`users/${uid}/expenses`).push(expense).then((ref) => {
             dispatch(addExpense({
                 id: ref.key,
                 ...expense
@@ -34,8 +35,9 @@ export const removeExpense = ({ id } = {}) => ({
 });
 
 export const startRemoveExpense = ({ id } = {}) => {
-    return (dispatch) => {
-       return database.ref(`expenses/${id}`).remove().then(() => {
+    return (dispatch, getState) => {
+        const uid = getState().auth.uid;                          //getting the userid from the database
+       return database.ref(`users/${uid}/expenses/${id}`).remove().then(() => {
             dispatch(removeExpense({ id }));
         });
     };
@@ -49,8 +51,9 @@ export const editExpense = (id, updates) => ({
 });
 
 export const startEditExpense = (id, updates) => {
-    return (dispatch) => {
-        return database.ref(`expenses/${id}`).update(updates).then(() => {
+    return (dispatch, getstate) => {
+        const uid = getstate().auth.uid;
+        return database.ref(`users/${uid}/expenses/${id}`).update(updates).then(() => {
             dispatch(editExpense(id, updates));
         });
     };
@@ -63,8 +66,9 @@ export const setExpenses = (expenses) => ({
 });
 
 export const startSetExpenses = () => {                  //fetching data from the database          
-    return (dispatch) => {
-        return database.ref('expenses')                //make sure that the promise gets returned  and this allow access to then in app.js where we dispatch things                  
+    return (dispatch, getstate) => {
+        const uid = getstate().auth.uid;
+        return database.ref(`users/${uid}/expenses`)                //make sure that the promise gets returned  and this allow access to then in app.js where we dispatch things                  
             .once('value')
             .then((snapshot) => {
                 const expenses = [];
