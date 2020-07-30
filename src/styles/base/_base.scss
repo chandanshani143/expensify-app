@@ -1,11 +1,17 @@
+* {
+    box-sizing: border-box;     //wea are adding this universal selecter because when we set height then the browser will add the padding and border to it by default so we don't want that
+}
+
 // we will be using rem instead of px because it has better support of accessibility
 html {
     font-size: 62.5%;                      //16*.625 = 10
 }
 
 body {
+    color: $dark-grey;
     font-family: Arial, Helvetica, sans-serif; 
     font-size: $m-size;                                //1rem = 16px
+    line-height: 1.6;
 }
 
 button {

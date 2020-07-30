@@ -1,0 +1,22 @@
+.box-layout {
+    align-items: center;
+    background: url('/images/bg.jpg');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    height: 100vh;                //vh stands for viewport height and it will take 100% of vh
+    width: 100vw;                  //vw stands for viewport width and it will take 100% of vw
+}
+
+.box-layout__box {
+    background: fade-out(white, .15);
+    border-radius: 3px;
+    padding: $l-size $m-size;
+    text-align: center;
+    width: 25rem;
+}
+
+.box-layout__title {
+    margin: 0 0 $m-size 0;
+    line-height: 1;                         //spacing between the lines
+}
